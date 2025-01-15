@@ -4,6 +4,8 @@ import './App.css'; // Custom styling for the app
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import SigninScreen from './screens/SigninScreen';
+import SignupScreen from './screens/SignupScreen';
 
 function App() {
   const openMenu = () => {
@@ -49,6 +51,8 @@ function App() {
               <Route path="/product/:id" element={<ProductScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart/:id?" element={<CartScreen />} />
+              <Route path='/signin' element={<SigninScreen/>} />
+              <Route path='/register' element={<SignupScreen/>} />
             </Routes>
           </div>
         </main>
