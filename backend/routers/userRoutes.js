@@ -89,5 +89,33 @@ router.post('/signup', async (req, res) => {
     });
   });
   
+  router.put('/profile', async (req, res) => {
+    const { id, name,email, password } = req.body.id; // Destructure required fields from the request body
+    console.log(id+": "+name+" : "+email );
+
+    try {
+      const updateFields = {};
+      if (name) updateFields.name = name;
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        updateFields.password = await bcrypt.hash(password, salt);
+      }
+  
+      const user = await User.findByIdAndUpdate(
+        id, 
+        updateFields, 
+        { new: true } 
+      );
+  
+      if (!user) {
+        return res.status(404).send({ msg: 'User not found' });
+      }
+  
+      res.send(user);
+    } catch (err) {
+      res.status(400).send({ msg: err.message });
+    }
+  });
+  
 
 module.exports = router;
