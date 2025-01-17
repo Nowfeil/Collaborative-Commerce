@@ -59,7 +59,7 @@ function ProductScreen() {
             </li>
             <li>
              {
-               product.inStock>0?<span>Status:In Stock</span> :<span>Status:Out of Stock</span>
+               product.countInStock>0?<span>Status:In Stock</span> :<span>Status:Out of Stock</span>
                
             }
               
@@ -67,7 +67,7 @@ function ProductScreen() {
             <li>
               <span>Qty:</span>
               <select onChange={(e) => setQuantity(e.target.value)} value={quantity}>
-                {[...Array(product.inStock).keys()].map((x) => (
+                {[...Array(product.countInStock).keys()].map((x) => (
                   <option key={x + 1} value={x + 1}>
                     {x + 1}
                   </option>
@@ -77,7 +77,7 @@ function ProductScreen() {
             </li>
             <li>
               {
-                product.inStock>0?
+                product.countInStock>0?
                 <button className="button primary" onClick={()=>handleToCart(product._id)}>Add to Cart</button>:
                 <div style={{color:"red"}}></div>
               }

@@ -10,6 +10,7 @@ import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LogoutScreen from './screens/LogoutScreen';
 import { USER_SIGNIN_SUCCESS } from './constants/userConstant';
+import { ProductsScreen } from './screens/ProductsScreen';
 
 function App() {
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ function App() {
               <Route path="/register" element={<SignupScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/logout" element={<LogoutScreen />} />
+              <Route path="/products" element={<ProductsScreen />} />
             </Routes>
           </div>
         </main>

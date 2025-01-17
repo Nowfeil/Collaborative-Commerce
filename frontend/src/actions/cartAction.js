@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CART_ADD_ITEM, CART_REMOVE_FAIL, CART_REMOVE_ITEM, CART_REMOVE_SUCCESS } from "../constants/cartConstant"
+import { CART_ADD_ITEM, CART_REMOVE_FAIL, CART_REMOVE_ITEM } from "../constants/cartConstant"
 
 export const addToCart = (id,qty) => async(dispatch)=>{
     try{
@@ -9,7 +9,7 @@ export const addToCart = (id,qty) => async(dispatch)=>{
             name:data.name,
             image:data.image,
             price:data.price,
-            inStock:data.inStock,
+            countInStock:data.countInStock,
             qty
         }})
     }catch(error){

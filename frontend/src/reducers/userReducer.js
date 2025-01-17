@@ -42,15 +42,3 @@ export const userProfileUpdateReducer = (state={},action)=>{
 
 }
 
-// export const userSignoutReducer = (state = {}, action) => {
-//     switch (action.type) {
-//       case USER_SIGNOUT_REQUEST:
-//         return { loading: true }; // User is in the process of signing out
-//       case USER_SIGNOUT_SUCCESS:
-//         return { loading: false, userInfo: {} }; // Clear user info
-//       case USER_SIGNOUT_FAIL:
-//         return { loading: false, error: action.payload }; // Handle any errors during logout
-//       default:
-//         return state;
-//     }
-//   };

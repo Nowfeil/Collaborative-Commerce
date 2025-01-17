@@ -55,13 +55,13 @@ export default function CartScreen() {
                       }
                     >
                       {/* Render quantity options based on stock */}
-                      {[...Array(item.inStock > 0 ? item.inStock : 1).keys()].map((x) => (
+                      {[...Array(item.countInStock > 0 ? item.countInStock : 1).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
                       ))}
                     </select>
-                    {item.inStock === 0 && <p className="out-of-stock">Out of stock</p>}
+                    {item.countInStock === 0 && <p className="out-of-stock">Out of stock</p>}
                   </div>
                 </div>
                 <button

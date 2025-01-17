@@ -14,4 +14,21 @@ const getToken = (user) => {
     );
 };
 
-module.exports = { getToken };
+const isAuth = (req,res,next)=>{
+    const token = req.headers.authorization;
+    if(!token) return res.status(401).send({msg:'No token, authorization denied'})
+    try{
+        const onlyToken = token.slice(7,token.length)
+        const decoded = jwt.verify(onlyToken,config.JWT_SECRET);
+        req.user = token;
+        next();
+    }catch(err){
+        return res.status(400).send({msg:'Invalid token'})
+    }
+}
+
+const isAdmin = (req,res,next)=>{
+    if(!req.user.isAdmin) return res.status(401).send({msg:'You are not an Admin'})
+    return next();
+}
+module.exports = { getToken,isAdmin,isAuth };
