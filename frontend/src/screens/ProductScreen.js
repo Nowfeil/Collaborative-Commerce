@@ -14,12 +14,12 @@ function ProductScreen() {
   const navigate = useNavigate();
   useEffect(() => {
     if (id) {
-      dispatch(detailsProduct(id)); // Dispatch the action with the product ID
+      dispatch(detailsProduct(id)); 
     }
   }, [dispatch, id]);
 
   const handleToCart = (id)=>{
-    navigate(`/cart/${id}?qty=${quantity}`)
+    navigate(`/cart/${id}?qty=${Number(quantity)}`)
   }
 
   if (loading) return <div>Loading...</div>;
@@ -66,7 +66,7 @@ function ProductScreen() {
             </li>
             <li>
               <span>Qty:</span>
-              <select onChange={(e) => setQuantity(e.target.value)} value={quantity}>
+              <select onChange={(e) => setQuantity(Number(e.target.value))} value={quantity}>
                 {[...Array(product.countInStock).keys()].map((x) => (
                   <option key={x + 1} value={x + 1}>
                     {x + 1}

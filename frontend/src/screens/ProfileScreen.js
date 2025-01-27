@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserProfile } from '../actions/userAction'; // Action for updating user profile
+import { getOrderedItems } from '../actions/orderAction';
 
 export default function ProfileScreen() {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ export default function ProfileScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const orders = useSelector(state=>state.orders)
+  const {orderItems} = orders;
   useEffect(() => {
     if (userInfo) {
       setName(userInfo.name);
@@ -30,6 +33,13 @@ export default function ProfileScreen() {
     }
   }, []);
 
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(getOrderedItems(userInfo._id)); // Fetch orders for the user
+    }
+  }, [dispatch, userInfo]);
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -122,6 +132,50 @@ export default function ProfileScreen() {
             Update Profile
           </Button>
         </Box>
+      </Box>
+      <Box>
+      {
+  orderItems && orderItems.length > 0 ? (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6" gutterBottom >
+          Your Orders
+        </Typography>
+        {orderItems.map((order, index) => (
+          <Grid container spacing={2} key={index}>
+            <Grid item xs={12} sm={4}>
+              {/* Displaying order image */}
+              <img
+                src={order.image} // Assuming each order has an image field
+                alt={order.name} // Assuming each order has a name field
+                style={{ width: '100%', height: 'auto' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Typography variant="body1" gutterBottom>
+                {/* Displaying product name */}
+                <strong>{order.name}</strong>
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {/* Displaying order date */}
+                <strong>Order Date: </strong>{new Date(order.orderDate).toLocaleDateString()}
+              </Typography>
+              <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
+                {/* Displaying price */}
+                Price: ${order.price}
+              </Typography>
+            </Grid>
+          </Grid>
+        ))}
+      </Grid>
+    </Grid>
+  ) : (
+    <Typography variant="body1" color="textSecondary">
+      No orders found.
+    </Typography>
+  )
+}
+
       </Box>
     </Container>
   );

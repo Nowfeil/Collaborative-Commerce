@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './App.css'; // Custom styling for the app
 import { useDispatch, useSelector } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
@@ -11,7 +11,9 @@ import ProfileScreen from './screens/ProfileScreen';
 import LogoutScreen from './screens/LogoutScreen';
 import { USER_SIGNIN_SUCCESS } from './constants/userConstant';
 import { ProductsScreen } from './screens/ProductsScreen';
-
+import CheckoutScreen from './screens/CheckoutScreen';
+import OrderSuccess from './components/OrderSuccess';
+import ProtectedRoute from './ProtectedRoute';
 function App() {
   const dispatch = useDispatch();
   const userSignIn = useSelector((state) => state.userSignin);
@@ -86,7 +88,16 @@ function App() {
               <Route path="/register" element={<SignupScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/logout" element={<LogoutScreen />} />
-              <Route path="/products" element={<ProductsScreen />} />
+              <Route
+                path="/products"
+                element={
+                  <ProtectedRoute>
+                    <ProductsScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/checkout" element={<CheckoutScreen />} />
+              <Route path="/ordersuccess" element={<OrderSuccess/>}/>
             </Routes>
           </div>
         </main>
