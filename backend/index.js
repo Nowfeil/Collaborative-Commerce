@@ -7,6 +7,7 @@ const userRoute = require('../backend/routers/userRoutes.js')
 const productRoute = require('../backend/routers/productRoutes.js')
 const orderRoute = require('../backend/routers/orderRoutes.js')
 const cartRoute = require("../backend/routers/cartRoutes.js")
+const groupRoute = require("../backend/routers/groupRoutes.js")
 dotenv.config();
 const url = config.MONGO_URL;
 mongoose.connect(url,{
@@ -33,4 +34,5 @@ app.use("/api/orders",orderRoute)
 
 app.use("/api/cart",cartRoute)
 
+app.use("/api/users/group",groupRoute)
 app.listen(5000, () => { console.log("Server started at http://localhost:5000") });

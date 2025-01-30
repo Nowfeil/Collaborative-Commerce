@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   isAdmin: { type: Boolean, required: true, default: false },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }], 
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cart" }], 
+  group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", default: null }, // Reference to Group
 });
 
 const userModel = mongoose.model("User", userSchema);

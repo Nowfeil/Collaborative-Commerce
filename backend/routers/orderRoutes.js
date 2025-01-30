@@ -23,20 +23,23 @@ router.post("/:userId", async (req, res) => {
       }
   
       const orders = await Promise.all(
-        products.map(async(p) => {
-          console.log(p);
+        products.map(async (p) => {
+          console.log("Processing product:", p);
+      
+          const { _id, name, image, price, product } = p;
+          const quantity = Number(p.quantity) || 1; // Convert to number, default to 1
           
-          const { _id,name,image,price,quantity,product } = p;
-          // Validate product fields
           if (!name || !quantity || !price) {
-            throw new Error("Each product must include productName, quantity, and price.");
+            throw new Error("Each product must include name, quantity, and price.");
           }
+      
           const modifyProduct = await Product.findById(product);
-          const modifiedProduct = await Product.findByIdAndUpdate(product,{
-            countInStock:
-            modifyProduct.countInStock - quantity
-          })
-          const removeItems = await Cart.deleteMany({user:userId})
+          await Product.findByIdAndUpdate(product, {
+            countInStock: modifyProduct.countInStock - quantity,
+          });
+      
+          await Cart.deleteMany({ user: userId });
+      
           return new Order({
             name,
             image,
@@ -46,6 +49,7 @@ router.post("/:userId", async (req, res) => {
           }).save();
         })
       );
+      
       console.log(orders);
       
       // Add the order IDs to the user's orders array

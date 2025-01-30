@@ -6,7 +6,9 @@ const Cart = require("../models/cartModel");
 // 1. Add Item to Cart
 router.put("/add/:id", async (req, res) => {
   const userId = req.params.id;
+  
   const { productId, quantity } = req.body;
+  console.log(productId+"  "+quantity);
 
   try {
     const product = await Product.findById(productId);
@@ -16,7 +18,7 @@ router.put("/add/:id", async (req, res) => {
 
     // Check if the item with the same productId and userId already exists in the cart
     let existingItem = await Cart.findOne({ user: userId, product: productId });
-    console.log(existingItem);
+   // console.log(existingItem);
     
     // If item already exists and quantity is the same, don't add it again
     if (existingItem) {

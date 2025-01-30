@@ -1,3 +1,4 @@
+import { GET_GROUP_MEMBERS_SUCCESS, GET_GROUP_MEMBERS_FAIL } from '../constants/userConstant';
 import axios from 'axios'
 const { USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNUP_FAIL, USER_SIGNUP_SUCCESS, USER_SIGNUP_REQUEST, UPDATE_PROFILE_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_REQUEST, USER_LOGOUT } = require("../constants/userConstant")
 
@@ -88,5 +89,87 @@ export const signout = () => async (dispatch) => {
     localStorage.removeItem('userInfo');
   } catch (error) {
     
+  }
+};
+
+export const getAllUsers = ()=>async(dispatch)=>{
+  try{
+    dispatch({type:"GET_ALL_USERS_REQUEST"})
+    const {data} = await axios.get(
+      'http://localhost:5000/api/users/allUsers',
+    );
+    dispatch({type:"GET_ALL_USERS_SUCCESS",payload:data})
+  }catch(err){
+    dispatch({type:"GET_ALL_USERS_FAIL",payload:err.message})
+  }
+}
+
+export const sendInvite=(reciver,sender)=>async(dispatch)=>{
+  try{
+      const {data} = await axios.post(
+        'http://localhost:5000/api/users/sendInvite',
+        {inviterEmail:sender,inviteeEmail:reciver},
+      );
+      dispatch({type:"SEND_INVITE_SUCCESS",payload:data})
+  }catch(err){
+        dispatch({type:"SEND_INVITE_FAIL",payload:err.message})
+  }
+}
+
+
+
+// Get User Group
+export const getUserGroup = (userId) => async (dispatch, getState) => {
+  dispatch({ type: "GET_USER_GROUP_REQUEST" });
+
+  try {
+    const { data } = await axios.get(`http://localhost:5000/api/users/group/${userId}`, );
+    dispatch({ type: "GET_USER_GROUP_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "GET_USER_GROUP_FAIL", payload: error.response?.data?.msg || error.message });
+  }
+};
+
+// Update Group Name
+export const updateGroupName = (groupId, newName) => async (dispatch, getState) => {
+  dispatch({ type: "UPDATE_GROUP_NAME_REQUEST" });
+
+  try {
+    const { data } = await axios.put(
+      `http://localhost:5000/api/users/group/updateName`,
+      { groupId, name: newName },
+      
+    );
+    dispatch({ type: "UPDATE_GROUP_NAME_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "UPDATE_GROUP_NAME_FAIL", payload: error.response?.data?.msg || error.message });
+  }
+};
+
+// Remove User from Group
+export const removeUserFromGroup = (groupId, userId) => async (dispatch, getState) => {
+  dispatch({ type: "REMOVE_USER_FROM_GROUP_REQUEST" });
+
+  try {
+    const { data } = await axios.delete(`http://localhost:5000/api/users/group/removeUser`, {
+      data: { groupId, userId },
+      
+    });
+    dispatch({ type: "REMOVE_USER_FROM_GROUP_SUCCESS", payload: data });
+  } catch (error) {
+    dispatch({ type: "REMOVE_USER_FROM_GROUP_FAIL", payload: error.response?.data?.msg || error.message });
+  }
+};
+
+
+export const getGroupMemberDetails = (memberIds) => async (dispatch) => {
+  try {
+    const { data } = await axios.post('http://localhost:5000/api/users/group/group-members', { memberIds });
+    dispatch({ type: GET_GROUP_MEMBERS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: GET_GROUP_MEMBERS_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
   }
 };

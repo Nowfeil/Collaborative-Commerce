@@ -38,6 +38,7 @@ export default function SignupScreen() {
       setMessage('Passwords do not match!');
     } else {
       dispatch(signup(name, email, password));
+      navigate("/signin")
     }
   };
 
